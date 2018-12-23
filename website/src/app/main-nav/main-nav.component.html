@@ -1,9 +1,10 @@
-<div>
-    <mat-toolbar color="primary">
-      Gaia
-    </mat-toolbar>
-    <mat-menu x-position="before" #menu="matMenu">
-      <button mat-menu-item>Option 1</button>
-      <button mat-menu-item>Option 2</button>
-    </mat-menu>
-</div>
+<mdc-top-app-bar #demoappbar [short]="true" [fixedAdjustElement]="mainContent">
+    <mdc-top-app-bar-row>
+      <mdc-top-app-bar-section align="start" title="Gaia Scenarios">
+        <button mdcIconButton mdcTopAppBarNavIcon icon="menu"></button>
+      </mdc-top-app-bar-section>
+      <mdc-top-app-bar-section align="end">
+        <mdc-icon mdcTopAppBarActionItem>account_circle</mdc-icon>
+      </mdc-top-app-bar-section>
+    </mdc-top-app-bar-row>
+  </mdc-top-app-bar>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ScenarioTableDataSource } from './scenario-table-datasource';
+import { Scenario } from '../scenario'
+import { ScenarioService } from '../scenario.service';
 
 @Component({
   selector: 'scenario-table',
@@ -7,12 +8,19 @@ import { ScenarioTableDataSource } from './scenario-table-datasource';
   styleUrls: ['./scenario-table.component.css']
 })
 export class ScenarioTableComponent implements OnInit {
-  dataSource: ScenarioTableDataSource;
+  
+  displayedColumns = ['name', 'state', 'action'];
+  dataSource: Scenario[];
 
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  constructor(private scenarioService: ScenarioService) { }
 
   ngOnInit() {
-    this.dataSource = new ScenarioTableDataSource();
+    this.loadScenarios();
+  }
+
+  loadScenarios(): void {
+    this.scenarioService
+      .fetchScenarios()
+      .subscribe(scenarios => this.dataSource = scenarios);
   }
 }
