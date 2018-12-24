@@ -12,8 +12,10 @@ const httpOptions = {
 
 const MOCKUP_SCENARIOS: Scenario[] = [
     {"id": "1", "name": "Image resize test", "config":"", "state": ScenarioState.Stopped},
-    {"id": "2", "name": "Archiver create vod", "config":"", "state": ScenarioState.Running},
-    {"id": "3", "name": "Provision video stream", "config":"", "state": ScenarioState.Failed}
+    {"id": "2", "name": "Verify access restriction", "config":"", "state": ScenarioState.Starting},
+    {"id": "3", "name": "Archiver create vod", "config":"", "state": ScenarioState.Running},
+    {"id": "4", "name": "Provision video stream", "config":"", "state": ScenarioState.Errors},
+    {"id": "5", "name": "3rd party API", "config":"", "state": ScenarioState.Stopping},
 ];
 
 @Injectable({ providedIn: 'root' })

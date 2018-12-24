@@ -3,7 +3,7 @@ export enum ScenarioState {
     Starting = "starting",
     Running = "running",
     Stopping = "stopping",
-    Failed = "failed"
+    Errors = "errors"
 }
 
 export interface Scenario {

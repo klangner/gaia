@@ -9,16 +9,16 @@ import { HttpClientModule }         from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
-import { ScenarioTableComponent } from './scenario-table/scenario-table.component';
 import { ScenariosComponent } from './scenarios/scenarios.component';
+import { ScenarioEditorComponent } from './scenario-editor/scenario-editor.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
-    ScenarioTableComponent,
-    ScenariosComponent
+    ScenariosComponent,
+    ScenarioEditorComponent
   ],
   imports: [
     BrowserModule,
