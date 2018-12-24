@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scenario-editor',
@@ -8,12 +8,12 @@ import { Location } from '@angular/common';
 })
 export class ScenarioEditorComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  goScenarios() {
-    this.location.go("/subscriptions");
+  save() {
+    this.router.navigate(["scenarios"]);
   }
 }
