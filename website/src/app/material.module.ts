@@ -4,7 +4,10 @@ import {
   MdcIconModule,
   MdcTopAppBarModule,
   MdcButtonModule,
-  MdcIconButtonModule
+  MdcIconButtonModule,
+  MdcFormFieldModule,
+  MdcTextFieldModule,
+  MdcTypographyModule
 } from '@angular-mdc/web';
 
 import {
@@ -18,6 +21,9 @@ import {
     MdcButtonModule,
     MdcIconButtonModule,
     MatTableModule,
+    MdcFormFieldModule,
+    MdcTextFieldModule,
+    MdcTypographyModule
   ],
   exports: [
     MdcIconModule,
@@ -25,6 +31,9 @@ import {
     MdcTopAppBarModule,
     MdcIconButtonModule,
     MatTableModule,
+    MdcFormFieldModule,
+    MdcTextFieldModule,
+    MdcTypographyModule
   ]
 })
 export class MaterialModule {}

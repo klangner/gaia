@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { ScenariosComponent } from './scenarios/scenarios.component';
 import { ScenarioEditorComponent } from './scenario-editor/scenario-editor.component';
+import {Location} from '@angular/common'
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { ScenarioEditorComponent } from './scenario-editor/scenario-editor.compo
     AppComponent,
     MainNavComponent,
     ScenariosComponent,
-    ScenarioEditorComponent
+    ScenarioEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +30,9 @@ import { ScenarioEditorComponent } from './scenario-editor/scenario-editor.compo
     BrowserAnimationsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    Location
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
