@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    Gaia backend
+    API Gateway + Lambda functions + DynamoDB tabe + Kinesis Streams
+
+Resources:
+    Gateway:
+        Type: AWS::Serverless::Api
+        Properties:
+            Name: Gaia
+            StageName: prod
+
+    ListScenariosfunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: function/list-scenarios
+            Handler: index.handler
+            Runtime: python3.7
+            Events:
+                GaiaGateway:
+                    Type: Api
+                    Properties:
+                        Path: /v1/scenarios
+                        Method: get
