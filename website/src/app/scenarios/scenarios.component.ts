@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Scenario } from '../scenario'
 import { ScenarioService } from '../scenario.service';
+import { AmplifyService } from 'aws-amplify-angular';
 
 
 @Component({
@@ -12,8 +13,26 @@ export class ScenariosComponent implements OnInit {
 
   displayedColumns = ['name', 'state', 'action'];
   dataSource: Scenario[];
+  signedIn: boolean;
+  user: any;
+  greeting: string;
 
-  constructor(private scenarioService: ScenarioService) { }
+  constructor(
+    private scenarioService: ScenarioService, 
+    private amplifyService: AmplifyService) 
+  {
+
+    this.amplifyService.authStateChange$
+        .subscribe(authState => {
+            this.signedIn = authState.state === 'signedIn';
+            if (!authState.user) {
+                this.user = null;
+            } else {
+                this.user = authState.user;
+                this.greeting = "Hello " + this.user.username;
+            }
+    });
+  }
 
   ngOnInit() {
     this.loadScenarios();

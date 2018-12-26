@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "gaia.klangner.com-authRole",
+            "UnauthRoleArn": "arn:aws:iam::151712809720:role/gaia.klangner.com-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::151712809720:role/gaia.klangner.com-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "gaia.klangner.com-deployment",
+            "UnauthRoleName": "gaia.klangner.com-unauthRole",
+            "StackName": "gaia.klangner.com",
+            "StackId": "arn:aws:cloudformation:us-east-1:151712809720:stack/gaia.klangner.com/6c810c20-0924-11e9-bf30-0ee5479654d4"
+        }
+    }
+}

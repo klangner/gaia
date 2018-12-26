@@ -4,8 +4,8 @@
 
 1. Create webapp
 
-```bash
-ng build --prod --aot
+```bashd --prod
+ng buil --aot
 ```
 
 Configure S3 bucket for website hosting

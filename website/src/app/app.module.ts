@@ -11,7 +11,8 @@ import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { ScenariosComponent } from './scenarios/scenarios.component';
 import { ScenarioEditorComponent } from './scenario-editor/scenario-editor.component';
-import {Location} from '@angular/common'
+import {Location} from '@angular/common';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {Location} from '@angular/common'
     MainNavComponent,
     ScenariosComponent,
     ScenarioEditorComponent,
+    AmplifyAngularModule
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,8 @@ import {Location} from '@angular/common'
     HttpClientModule,
   ],
   providers: [
-    Location
+    Location,
+    AmplifyService
   ],
   bootstrap: [AppComponent]
 })
