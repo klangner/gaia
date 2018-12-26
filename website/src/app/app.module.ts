@@ -20,8 +20,7 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     AppComponent,
     MainNavComponent,
     ScenariosComponent,
-    ScenarioEditorComponent,
-    AmplifyAngularModule
+    ScenarioEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +30,7 @@ import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AmplifyAngularModule
   ],
   providers: [
     Location,
