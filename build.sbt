@@ -4,15 +4,19 @@ version := "0.1"
 
 scalaVersion := "2.12.8"
 
-val akkaActors = "2.5.19"
-val akkaHttp = "10.1.6"
+lazy val root = (project in file(".")).enablePlugins(SbtTwirl)
 
-libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % akkaActors,
-  "com.typesafe.akka" %% "akka-stream" % akkaActors,
-  "com.typesafe.akka" %% "akka-http" % akkaHttp,
-  "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttp
-)
+libraryDependencies ++= {
+  val akkaActorsV = "2.5.19"
+  val akkaHttpV = "10.1.6"
+
+  Seq(
+    "com.typesafe.akka" %% "akka-actor" % akkaActorsV,
+    "com.typesafe.akka" %% "akka-stream" % akkaActorsV,
+    "com.typesafe.akka" %% "akka-http" % akkaHttpV,
+    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV
+  )
+}
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
