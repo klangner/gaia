@@ -2,12 +2,12 @@ package gaia.apps.core
 
 object Api {
 
-  final case class RunJob(config: String)
+  final case class RunJob(id: String, config: String)
 
   sealed trait JobResult
 
-  case object Success extends JobResult
+  case class JobSucceeded(jobId: String) extends JobResult
 
-  case class Failure(reason: String) extends JobResult
+  case class JobFailed(jobId: String, reason: String) extends JobResult
 
 }

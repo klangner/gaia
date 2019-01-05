@@ -1,5 +1,7 @@
 package gaia
 
+import java.io.File
+
 import akka.actor.{ActorRef, ActorSystem}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
@@ -8,7 +10,7 @@ import akka.stream.ActorMaterializer
 import gaia.ScenarioScheduler.AddScenario
 
 import scala.concurrent.ExecutionContext
-import scala.io.StdIn
+import scala.io.{Source, StdIn}
 
 
 object MainApp {
@@ -29,8 +31,24 @@ object MainApp {
   }
 
   def main(args: Array[String]): Unit = {
-    scheduler ! AddScenario("1", "https://google.com\nhttps://google.com")
+    val scenarios: Seq[(String, String)] = loadScenarios()
+    scenarios.foreach{ scenario =>
+      scheduler ! AddScenario(scenario._1, scenario._2)
+    }
     runServer()
+  }
+
+  def loadScenarios(): Seq[(String, String)] = {
+    val d = new File("./scenarios")
+    if (d.exists && d.isDirectory) {
+      d.listFiles
+        .filter(_.getName.endsWith(".scenario"))
+        .map{ file =>
+          (file.getName, Source.fromFile(file).getLines.mkString("\n"))
+        }
+    } else {
+      List[(String, String)]()
+    }
   }
 
   private def runServer(): Unit = {

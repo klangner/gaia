@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpRequest
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
-import gaia.apps.core.Api.{Failure, JobResult, RunJob, Success}
+import gaia.apps.core.Api._
 
 import scala.concurrent.Future
 
@@ -23,31 +23,34 @@ class HealthChecker extends Actor with ActorLogging {
   private val http = Http(context.system)
 
   def receive: Receive = {
-    case RunJob(config) =>
-      println("Run job with config " + config)
-      runJob(config, sender)
+    case RunJob(id, config) =>
+      println(s"Run job $id with config:\n" + config)
+      runJob(id, config, sender)
   }
 
-  private def runJob(config: String, sender: ActorRef): Unit = {
+  private def runJob(jobId: String, config: String, sender: ActorRef): Unit = {
     val endpoints = config.split('\n')
-    val reqs: Seq[Future[JobResult]] = endpoints.map(checkHealth)
+    val reqs: Seq[Future[Either[String, Unit]]] = endpoints.map(checkHealth)
     Future.sequence(reqs)
-      .map(_.reduce(joinJobResults))
-      .foreach(res => sender ! res)
+      .map(_.reduce(joinResults))
+      .foreach {
+        case Left(err) => sender ! JobFailed(jobId, err)
+        case Right(_) => sender ! JobSucceeded(jobId)
+      }
   }
 
-  private def checkHealth(endpoint: String): Future[JobResult] = {
+  private def checkHealth(endpoint: String): Future[Either[String, Unit]] = {
     implicit val system: ActorSystem = context.system
     http.singleRequest(HttpRequest(uri = endpoint))
       .map { res =>
         res.discardEntityBytes()
-        Success
+        Right()
       }.recover {
-      case e => Failure(e.getMessage)
+      case e => Left(e.getMessage)
     }
   }
 
-  private def joinJobResults(r1: JobResult, r2: JobResult): JobResult = {
-    if (r1 != Success) r1 else r2
+  private def joinResults(r1: Either[String, Unit], r2: Either[String, Unit]): Either[String, Unit] = {
+    if (r1.isLeft) r1 else r2
   }
 }
