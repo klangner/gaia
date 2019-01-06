@@ -1,11 +1,12 @@
-@import gaia.Models.Scenario
-@import gaia.Models.ScenarioState
+@import gaia.Frontend.ScenarioInfo
+@import gaia.AppState.ScenarioState
 
-@(scenarios: Seq[Scenario])
+@(scenarios: Seq[ScenarioInfo])
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="refresh" content="10" />
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gaia integrations tester</title>
@@ -32,7 +33,7 @@
         </tr>
         @for(scenario <- scenarios) {
             <tr>
-                <td>@scenario.id</td>
+                <td>@scenario.name</td>
                 <td>
                 @if(scenario.state == ScenarioState.Waiting) {
                     <span class="label label-default">Waiting</span>

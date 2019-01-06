@@ -1,6 +1,7 @@
 package gaia
 
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import gaia.AppState.ScenarioState
 import gaia.MainApp.system
 import gaia.apps.core.Api._
 import gaia.apps.healthchecker.HealthChecker
@@ -9,6 +10,9 @@ import scala.concurrent.duration._
 import scala.util.Random
 
 
+/**
+  * Schedule scenario every 1 minute with random starting time
+  */
 object ScenarioScheduler {
   def props(): Props = Props(new ScenarioScheduler)
 
@@ -26,15 +30,14 @@ class ScenarioScheduler extends Actor with ActorLogging{
     case AddScenario(id, config) =>
       scheduleScenario(id, config)
     case JobSucceeded(id) =>
-      println(s"Job $id succeeded")
+      AppState.scenarioStateChanged(id, ScenarioState.Success)
     case JobFailed(id, err) =>
-      println(s"Job $id failed:")
-      println(err)
+      AppState.scenarioStateChanged(id, ScenarioState.Failed, err)
   }
 
   private def scheduleScenario(id: String, config: String): Unit = {
     val initialDelay = Random.nextInt(60)
-    context.system.scheduler.schedule(initialDelay.seconds, 1 minutes)(healthChecker ! RunJob(id, config))
+    context.system.scheduler.schedule(initialDelay.seconds, 1.minutes)(healthChecker ! RunJob(id, config))
   }
 
 }
