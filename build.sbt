@@ -9,12 +9,14 @@ lazy val root = (project in file(".")).enablePlugins(SbtTwirl)
 libraryDependencies ++= {
   val akkaActorsV = "2.5.19"
   val akkaHttpV = "10.1.6"
+  val twirlV = "1.3.15"
 
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaActorsV,
     "com.typesafe.akka" %% "akka-stream" % akkaActorsV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
-    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV
+    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
+    "com.typesafe.play" %% "twirl-api" % twirlV
   )
 }
 
