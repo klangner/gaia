@@ -10,13 +10,15 @@ libraryDependencies ++= {
   val akkaActorsV = "2.5.19"
   val akkaHttpV = "10.1.6"
   val twirlV = "1.3.15"
+  val awsV = "1.11.478"
 
   Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaActorsV,
     "com.typesafe.akka" %% "akka-stream" % akkaActorsV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
-    "com.typesafe.play" %% "twirl-api" % twirlV
+    "com.typesafe.play" %% "twirl-api" % twirlV,
+    "com.amazonaws" % "aws-java-sdk-dynamodb" % awsV 
   )
 }
 

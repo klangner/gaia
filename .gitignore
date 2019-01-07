@@ -5,3 +5,5 @@ target/
 # System Files
 .DS_Store
 Thumbs.db
+
+/application.conf

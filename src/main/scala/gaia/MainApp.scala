@@ -29,7 +29,7 @@ object MainApp {
     }
 
   def main(args: Array[String]): Unit = {
-    AppState.loadScenarios("./scenarios")
+    AppState.loadScenarios()
 
     AppState.getScenarios.foreach{ scenario =>
       scheduler ! AddScenario(scenario.id, scenario.config)
