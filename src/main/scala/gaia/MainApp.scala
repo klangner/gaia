@@ -7,8 +7,8 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import gaia.ScenarioScheduler.AddScenario
 
-import scala.concurrent.ExecutionContext
-import scala.io.StdIn
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext}
 
 
 object MainApp {
@@ -38,12 +38,7 @@ object MainApp {
   }
 
   private def runServer(): Unit = {
-    val bindingFuture = Http().bindAndHandle(route, host, port)
-
     println(s"Server online at http://localhost:$port/\nPress RETURN to stop...")
-    StdIn.readLine() // let it run until user presses return
-    bindingFuture
-      .flatMap(_.unbind()) // trigger unbinding from the port
-      .onComplete(_ => system.terminate()) // and shutdown when done
+    Await.result(Http().bindAndHandle(route, host, port), Duration.Inf)
   }
 }
