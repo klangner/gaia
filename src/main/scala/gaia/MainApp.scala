@@ -5,7 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import gaia.ScenarioScheduler.AddScenario
+import gaia.ScenarioScheduler.{AddScenario, RemoveAllScenarios}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
@@ -29,16 +29,21 @@ object MainApp {
     }
 
   def main(args: Array[String]): Unit = {
-    AppState.loadScenarios()
-
-    AppState.getScenarios.foreach{ scenario =>
-      scheduler ! AddScenario(scenario.id, scenario.config)
-    }
+    reloadScenarios()
     runServer()
   }
 
+  def reloadScenarios() = {
+    AppState.loadScenarios()
+
+    scheduler ! RemoveAllScenarios
+    AppState.getScenarios.foreach { scenario =>
+      scheduler ! AddScenario(scenario.id, scenario.config)
+    }
+  }
+
   private def runServer(): Unit = {
-    println(s"Server online at http://localhost:$port/\nPress RETURN to stop...")
+    println(s"Server online at http://localhost:$port/")
     Await.result(Http().bindAndHandle(route, host, port), Duration.Inf)
   }
 }

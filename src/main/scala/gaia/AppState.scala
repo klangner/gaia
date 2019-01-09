@@ -26,11 +26,19 @@ object AppState {
 
   private var scenarios: Seq[Scenario] = Seq()
   private val scenarioState: mutable.Map[String, ScenarioState] = new mutable.HashMap[String, ScenarioState]()
+  private val jobLogs: mutable.Map[String, String] = new mutable.HashMap[String, String]()
+
+  def init(): Unit = {
+    scenarios = Seq()
+    scenarioState.clear()
+    jobLogs.clear()
+  }
 
   /**
     * Load scenarios from database
     */
   def loadScenarios(): Unit = {
+    init()
     val config: Config = ConfigFactory.defaultApplication().resolve()
     val tableName = config.getString("scenarios.table")
     val accessKey = config.getString("aws.accessKey")
@@ -64,4 +72,10 @@ object AppState {
   def scenarioStateChanged(id: String, newState: ScenarioState, log: String = ""): Unit = {
     scenarioState.put(id, newState)
   }
+
+  def addLog(id: String, log: String): Unit = {
+    jobLogs.put(id, log)
+  }
+
+  def getLog(id: String): Option[String] = jobLogs.get(id)
 }
