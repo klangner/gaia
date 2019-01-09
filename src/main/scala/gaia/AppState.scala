@@ -24,12 +24,12 @@ object AppState {
 
   case class Scenario(id: String, config: String)
 
-  private var scenarios: Seq[Scenario] = Seq()
+  private val scenarios: mutable.Map[String, Scenario] = new mutable.HashMap[String, Scenario]()
   private val scenarioState: mutable.Map[String, ScenarioState] = new mutable.HashMap[String, ScenarioState]()
   private val jobLogs: mutable.Map[String, String] = new mutable.HashMap[String, String]()
 
   def init(): Unit = {
-    scenarios = Seq()
+    scenarios.clear()
     scenarioState.clear()
     jobLogs.clear()
   }
@@ -56,21 +56,28 @@ object AppState {
       .withValueMap(new ValueMap().withString(":v_env", "dev"))
 
     val results = table.query(query)
-    scenarios = results.iterator().asScala.map { r =>
-      val id: String = r.asMap().asScala.getOrElse("id", "").toString
-      val config: String = r.asMap().asScala.getOrElse("config", "").toString
-      Scenario(id, config)
-    }.toSeq
+    results.iterator().asScala
+      .map { r =>
+        val id: String = r.asMap().asScala.getOrElse("id", "").toString
+        val config: String = r.asMap().asScala.getOrElse("config", "").toString
+        Scenario(id, config)
+      }
+      .foreach(s => scenarios.put(s.id, s))
   }
 
-  def getScenarios: List[Scenario] = {
-    scenarios.toList
+  def getScenarios: Seq[Scenario] = {
+    scenarios.values.toSeq
   }
+
+  def getScenario(id: String): Option[Scenario] = scenarios.get(id)
 
   def getScenarioState(id: String): ScenarioState = scenarioState.getOrElse(id, ScenarioState.Waiting)
 
   def scenarioStateChanged(id: String, newState: ScenarioState, log: String = ""): Unit = {
     scenarioState.put(id, newState)
+    if (newState == ScenarioState.Failed) {
+      jobLogs.put(id, log)
+    }
   }
 
   def addLog(id: String, log: String): Unit = {

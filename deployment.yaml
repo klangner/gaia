@@ -37,7 +37,7 @@ spec:
                 secretKeyRef:
                   name: gaia-secret
                   key: aws-secret-key
-          image: klangner/gaia:1
+          image: klangner/gaia:1.2
           imagePullPolicy: IfNotPresent
           name: gaia
           ports:

@@ -1,0 +1,36 @@
+@import gaia.Frontend.ScenarioInfo
+@import gaia.AppState.ScenarioState
+
+@(scenario: ScenarioInfo)
+
+@base("Home") {
+    <h1>
+        @if(scenario.state == ScenarioState.Waiting) {
+            <span class="label label-default">Waiting</span>
+        } else if (scenario.state == ScenarioState.Success) {
+            <span class="label label-success">Ok</span>
+        } else {
+            <span class="label label-danger">Failed</span>
+        }
+        @scenario.name
+    </h1>
+
+    <div class="container">
+        <h2>Configuration</h2>
+        <div>
+            @Html(scenario.config.replaceAll("\n", "<br/>"))
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Last error</h2>
+        <div>
+            @Html(scenario.log.replaceAll("\n", "<br/>"))
+        </div>
+    </div>
+
+    <hr/>
+    <div class="container">
+        <a href="/">Back</a>
+    </div>
+}
